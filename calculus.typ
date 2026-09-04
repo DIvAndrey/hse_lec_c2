@@ -61,7 +61,7 @@
 
 $sum_(n=1)^infinity (= lim_(n->infinity) S_n)$ называется сходящейся, если сходится ${S_n}$.
 
-$ sum_(n=0)^infinity q^n = 1/(1-q), space |q| < 1 $
+$ sum_(n=0)^infinity q^n = 1/(1-q), space abs(q) < 1 $
 $ sum_(n=1)^infinity 1/n^a, space space cases(
   a > 1 ==> "сходится",
   a <= 1 ==> "расходится",
@@ -69,7 +69,7 @@ $ sum_(n=1)^infinity 1/n^a, space space cases(
 ) $
 
 _Утверждение._ Ряд $sum_(k=1)^infinity$ сходится 
-$<==> forall epsilon > 0 exists N in NN: |sum_(k=N)^(N+p) a_k| < epsilon forall p in NN$.
+$<==> forall epsilon > 0 space exists N in NN: abs(sum_(k=N)^(N+p) a_k) < epsilon space forall p in NN$.
 
 === 1.2. Неотрицательные ряды
 
@@ -77,7 +77,7 @@ _Утверждение._ (Признак сравнения)
 
 Пусть ${a_n >= 0}_(n=1)^infinity, space {b_n >= 0}_(n=1)^infinity, space a_n <= b_n forall n, space sum_(n=1)^infinity b_n "сходится" ==> sum_(n=1)^infinity a_n "сходится"$.
 #proof[
-  $ |sum_(k=N)^(N+p) a_k| <= sum_(k=N)^(N+p) b_k $
+  $ abs(sum_(k=N)^(N+p) a_k) <= sum_(k=N)^(N+p) b_k $
 ]
 
 _Утверждение._ ${a_n >= 0}_(n=1)^infinity$
