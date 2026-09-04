@@ -59,7 +59,7 @@
 
 Если есть последовательность ${a_n}_(n=1)^infinity$, можно рассмотреть последовательность частичных сумм $S_n = sum_(k = 1)^n a_k$.
 
-$sum_(n=1)^infinity (= lim_(n->infinity) S_n)$ называется сходящейся, если сходится ${S_n}$.
+$sum_(n=1)^infinity a_n (= lim_(n->infinity) S_n)$ называется сходящейся, если сходится ${S_n}$.
 
 $ sum_(n=0)^infinity q^n = 1/(1-q), space abs(q) < 1 $
 $ sum_(n=1)^infinity 1/n^a, space space cases(
@@ -68,7 +68,7 @@ $ sum_(n=1)^infinity 1/n^a, space space cases(
   delim: #none,
 ) $
 
-_Утверждение._ Ряд $sum_(k=1)^infinity$ сходится 
+_Утверждение._ Ряд $sum_(k=1)^infinity a_k$ сходится 
 $<==> forall epsilon > 0 space exists N in NN: abs(sum_(k=N)^(N+p) a_k) < epsilon space forall p in NN$.
 
 === 1.2. Неотрицательные ряды
@@ -89,7 +89,7 @@ _Утверждение._ ${a_n >= 0}_(n=1)^infinity$
 #proof[
   1) $root(n, a_n) <= 1 - delta$
 
-  $a_m <.= (1-delta)^n, space b_n = (1-delta)^n$
+  $a_n <.= (1-delta)^n, space b_n = (1-delta)^n$
 
   2) $root(n, a_n) >= 1 ==> a_n >= 1$.
 ]
