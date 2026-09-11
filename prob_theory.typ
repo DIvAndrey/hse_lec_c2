@@ -347,5 +347,24 @@ _Теорема_ (вторая, о $pi$-$lambda$-системах).
   1. $Omega in L_1$ --- очевидно.
   2. $A, C in L_1, space A subset C ==>^? C without A in L_1$.
 
+    Пусть $B in M$. 
+    Тогда $(C without A) inter B = underbrace((C inter B), in lambda(M)) without underbrace((A inter B), in lambda(M)) in lambda(M)$ по свойству 2) $lambda$-системы $==> C without A in L_1$.
+
+  3. Пусть $A_n arrow.t A$, $forall n space A_n in L_1 ==>^? A in L_1$. 
   
+    Возьмем $forall B in M$. Тогда $A_n inter B arrow.t A inter B$. Но $A_n inter B in lambda(M) ==> A inter B in lambda(M)$ по свойству 3) $lambda$-системы $==> A = L_1$.
+
+  Вывод: $L_1$ --- это $lambda$-система, содержащая $M ==> lambda(M) subset L_1 ==> L_1 = lambda(M).$
+
+  Мы доказали, что $forall A in lambda(M) space forall B in M space A inter B in lambda(M)$.
+
+  Рассмотрим $L_2 = {A in lambda(M) : forall B in lambda(M) space A inter B in lambda(M)}$.
+
+  В силу доказанного $M subset L_2$. Точно так же проверяем, что $L_2$ --- это $lambda$-система $==> lambda(M) subset L_2 ==> forall A, B in lambda(M) space A inter B in lambda(M)$.
+]
+
+_Следствие._ Если $M$ --- $pi$-система, $L$ --- $lambda$-система и $M subset L$, то $sigma(M) subset L$.
+
+#proof[
+  По теореме $sigma(M) = lambda(M) ==> lambda(M) subset L$.
 ]
