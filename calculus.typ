@@ -1,46 +1,65 @@
 #import "@preview/clean-math-paper:0.2.0": *
 
-// --- Comment out for white theme
-#set text(white)
-#set page(fill: rgb("#303446"))
-// ---
+#let ink    = rgb("#1B1D21")
+#let accent = rgb("#27395C")
+#let muted  = rgb("#8A9099")
+#let rule   = rgb("#E2E5E9")
+#let soft   = rgb("#F5F7F9")
 
-#let proof(body) = {
-  set par(justify: true)
-  [
-    _Доказательство._
-    #block(
-      inset: (left: 15pt, right: 15pt),
-      [
-        #body
-      ],
-    )
-    #align(right)[$square$]
-  ]
+#set text(font: "Libertinus Serif", size: 10.5pt, lang: "ru", fill: ink)
+#set par(justify: true, leading: 0.68em, spacing: 1em)
+#set list(marker: text(fill: accent, weight: 700)[•])
+
+#set page(
+  paper: "a4",
+  margin: (top: 20mm, bottom: 18mm, left: 21mm, right: 21mm),
+  fill: rgb("#FCFBF8"),
+  numbering: "1",
+  number-align: center,
+  footer: context {
+    set text(size: 8.5pt, fill: muted)
+    line(length: 100%, stroke: 0.4pt + rule)
+    v(-3pt)
+    align(center)[#counter(page).display("1 / 1", both: true)]
+  },
+)
+
+#show heading.where(level: 1): it => block(above: 1.3em, below: .6em)[
+  #set block(spacing: 0pt)
+  #text(size: 16pt, weight: 700, fill: accent)[#it.body]
+  #v(2pt)
+  #line(length: 100%, stroke: 0.9pt + accent)
+]
+#show heading.where(level: 2): it => block(above: 1em, below: .4em)[
+  #text(size: 12.5pt, weight: 700, fill: accent)[#it.body]
+]
+#show heading.where(level: 3): it => block(above: .8em, below: .3em)[
+  #text(size: 11pt, weight: 700)[#it.body]
+]
+
+// Названия определений, теорем и служебных пометок.
+#let labels = ([Определение.], [Теорема.], [Теорема], [Лемма.], [Лемма],
+  [Следствие.], [Пример.], [Примеры.], [Примеры:], [Замечание.],
+  [Замечание:], [Упражнение.], [Решение.], [Вопрос:], [Вывод:])
+#show emph: it => if labels.contains(it.body) {
+  text(fill: accent, weight: 700, it.body)
+} else {
+  text(style: "italic", it.body)
 }
 
-#let shift(body) = {
-  set par(justify: true)
-  [
-    #block(
-      inset: (left: 15pt, right: 15pt),
-      [
-        #body
-      ],
-    )
-  ]
-}
-
-#show table.cell: it => {
-  if it.y == 0 {
-    strong(it)
-  } else {
-    it
-  }
-}
-
-#show heading: it => [
-  #block(it.body)
+#let proof(body) = block(
+  width: 100%,
+  fill: soft,
+  stroke: (left: 2.5pt + accent),
+  inset: (left: 10pt, right: 10pt, top: 7pt, bottom: 8pt),
+  radius: 2pt,
+  above: .7em, below: .7em,
+)[
+  #text(fill: accent, weight: 700)[Доказательство.]
+  #h(.4em)
+  #body
+  #v(.35em)
+  #align(right)[#box(width: 5pt, height: 5pt, fill: accent, radius: .5pt)]
 ]
 
 = План
@@ -106,11 +125,10 @@ $ sum_(n=1)^infinity f(n) "сходится" <==> integral_1^infinity f(x) d x "
 
 _Признак Куммера._ ${a_n > 0}_(n=1)^infinity, space {c_n > 0}_(n=1)^infinity$.
 
-1) $exists delta > 0: a_n/a_(n+1) c_n - c_(n+1) > delta$ начиная с некоторого $n$ $==> sum_(n=1)^infinity a_n "сходится"$. 
+1. $exists delta > 0: a_n/a_(n+1) c_n - c_(n+1) > delta$ начиная с некоторого $n$ $==> sum_(n=1)^infinity a_n "сходится"$. 
 
-2) Пусть $sum_(n=1)^infinity 1/c_n$ расходится и $a_n/a_(n+1) c_n - c_(n+1) <= 0$ начиная с некоторого $n$ $==> sum_(n=1)^infinity a_n$ расходится.
+2. Пусть $sum_(n=1)^infinity 1/c_n$ расходится и $a_n/a_(n+1) c_n - c_(n+1) <= 0$ начиная с некоторого $n$ $==> sum_(n=1)^infinity a_n$ расходится.
 
-#shift[
   _Пример 1 (признак Даламбера)._ Если подставить $c_n = 1$, то:
 
   $a_n / a_(n+1) > 1 + delta$ начиная с некоторого $n$ $==> sum a_n$ сходится.
@@ -122,7 +140,7 @@ _Признак Куммера._ ${a_n > 0}_(n=1)^infinity, space {c_n > 0}_(n=1
   $a_n / a_(n+1) > 1 + (1 + delta)/n$ начиная с некоторого $n$ $==> sum a_n$ сходится.
 
   $a_n / a_(n+1) <= 1 + 1/n$ начиная с некоторого $n$ $==> sum a_n$ расходится.
-  ]
+
 
 #proof[
   1) $a_n c_n - a_(n+1) c_(n+1) > delta a_(n+1) > 0.$

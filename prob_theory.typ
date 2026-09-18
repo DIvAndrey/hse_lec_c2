@@ -1,46 +1,63 @@
-#import "@preview/clean-math-paper:0.2.0": *
+#let ink    = rgb("#1B1D21")
+#let accent = rgb("#27395C")
+#let muted  = rgb("#8A9099")
+#let rule   = rgb("#E2E5E9")
+#let soft   = rgb("#F5F7F9")
 
-// --- Comment out for white theme
-#set text(white)
-#set page(fill: rgb("#303446"))
-// ---
+#set text(font: "Libertinus Serif", size: 10.5pt, lang: "ru", fill: ink)
+#set par(justify: true, leading: 0.68em, spacing: 1em)
+#set list(marker: text(fill: accent, weight: 700)[•])
 
-#let proof(body) = {
-  set par(justify: true)
-  [
-    _Доказательство._
-    #block(
-      inset: (left: 15pt, right: 15pt),
-      [
-        #body
-      ],
-    )
-    #align(right)[$square$]
-  ]
+#set page(
+  paper: "a4",
+  margin: (top: 20mm, bottom: 18mm, left: 21mm, right: 21mm),
+  fill: rgb("#FCFBF8"),
+  numbering: "1",
+  number-align: center,
+  footer: context {
+    set text(size: 8.5pt, fill: muted)
+    line(length: 100%, stroke: 0.4pt + rule)
+    v(-3pt)
+    align(center)[#counter(page).display("1 / 1", both: true)]
+  },
+)
+
+#show heading.where(level: 1): it => block(above: 1.3em, below: .6em)[
+  #set block(spacing: 0pt)
+  #text(size: 16pt, weight: 700, fill: accent)[#it.body]
+  #v(2pt)
+  #line(length: 100%, stroke: 0.9pt + accent)
+]
+#show heading.where(level: 2): it => block(above: 1em, below: .4em)[
+  #text(size: 12.5pt, weight: 700, fill: accent)[#it.body]
+]
+#show heading.where(level: 3): it => block(above: .8em, below: .3em)[
+  #text(size: 11pt, weight: 700)[#it.body]
+]
+
+// Названия определений, теорем и служебных пометок.
+#let labels = ([Определение.], [Теорема.], [Теорема], [Лемма.], [Лемма],
+  [Следствие.], [Пример.], [Примеры.], [Примеры:], [Замечание.],
+  [Замечание:], [Упражнение.], [Решение.], [Вопрос:], [Вывод:])
+#show emph: it => if labels.contains(it.body) {
+  text(fill: accent, weight: 700, it.body)
+} else {
+  text(style: "italic", it.body)
 }
 
-#let shift(body) = {
-  set par(justify: true)
-  [
-    #block(
-      inset: (left: 15pt, right: 15pt),
-      [
-        #body
-      ],
-    )
-  ]
-}
-
-#show table.cell: it => {
-  if it.y == 0 {
-    strong(it)
-  } else {
-    it
-  }
-}
-
-#show heading: it => [
-  #block(it.body)
+#let proof(body) = block(
+  width: 100%,
+  fill: soft,
+  stroke: (left: 2.5pt + accent),
+  inset: (left: 10pt, right: 10pt, top: 7pt, bottom: 8pt),
+  radius: 2pt,
+  above: .7em, below: .7em,
+)[
+  #text(fill: accent, weight: 700)[Доказательство.]
+  #h(.4em)
+  #body
+  #v(.35em)
+  #align(right)[#box(width: 5pt, height: 5pt, fill: accent, radius: .5pt)]
 ]
 
 = План
@@ -508,7 +525,7 @@ _Теорема_ (о взаимно однозначном соответств�
   Легко видеть, что $P_0 (RR) = 1$, $P_0$ конечно аддитивна на $AA$. Если мы покажем, что $P_0$ счетно аддитивна на $AA$, то по теореме Каратеодори ее можно будет продолжить единственным образом до вероятностной меры $P$ на $sigma(AA) = B(RR)$. 
   
   Тогда $P$ --- искомая мера, $forall x in RR space P((-infinity, x]) = P_0((-infinity, x]) = F(x)$.
-]
+
 
 По теореме о непрерывности вероятностной меры, достаточно проверить, что $P_0$ непрерывна в нуле на $AA$.
 
@@ -530,4 +547,4 @@ $B_k = union.sq_(m=1)^s (a'_m, b_m]$,
 
 где $a'_m > a_m$.
 
-$==> P_0(A_k) - P_0 (B_k) = sum_(m=1)^s (F(a'_m) - F(a_m)) <= epsilon/2^k$.
+$==> P_0(A_k) - P_0 (B_k) = sum_(m=1)^s (F(a'_m) - F(a_m)) <= epsilon/2^k$.]
