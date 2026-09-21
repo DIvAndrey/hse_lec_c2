@@ -3,7 +3,28 @@
 #   *.typ — compiled directly (dark-theme lines commented out, as before)
 #   *.md  — converted via pandoc -> typst, wrapped in a light theme, compiled
 set -euo pipefail
-cd "$(dirname "$0")"
+
+force=0
+for arg in "$@"; do
+  case "$arg" in
+    -f|--force) force=1 ;;
+    -h|--help)
+      echo "usage: $(basename "$0") [-f|--force]"
+      echo "  Compiles .typ/.md files whose .pdf is missing or older than the"
+      echo "  source (make-like incremental build)."
+      echo "  -f, --force   recompile everything, ignoring timestamps"
+      exit 0 ;;
+    *)
+      echo "error: unknown argument: $arg" >&2
+      exit 2 ;;
+  esac
+done
+
+# Resolve the script's own path before cd'ing: it acts as a dependency of every
+# target, so editing this script (theme/recipe) invalidates all PDFs.
+script_dir="$(cd "$(dirname "$0")" && pwd)"
+self="$script_dir/$(basename "$0")"
+cd "$script_dir"
 
 command -v typst >/dev/null || { echo "error: typst not found in PATH" >&2; exit 1; }
 if ! command -v pandoc >/dev/null 2>&1; then
@@ -65,13 +86,21 @@ compile_md() {
 }
 
 shopt -s nullglob globstar
-count=0
+compiled=0
+skipped=0
 for f in **/*.typ **/*.md; do
   [[ -f "$f" ]] || continue
   base="$(basename "$f")"
   [[ "$base" == .* ]] && continue            # skip hidden/temp files
+  out="${f%.*}.pdf"
+  # Make-like staleness check: rebuild only if the PDF is missing or older
+  # than its source (target: prerequisite).
+  if (( ! force )) && [[ -f "$out" && "$out" -nt "$f" && "$out" -nt "$self" ]]; then
+    skipped=$((skipped + 1))
+    continue
+  fi
   if [[ "$f" == *.typ ]]; then compile_typ "$f"; else compile_md "$f"; fi
-  count=$((count + 1))
+  compiled=$((compiled + 1))
 done
 
-echo "done: $count file(s) compiled"
+echo "done: $compiled compiled, $skipped up-to-date"
