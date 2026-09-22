@@ -42,9 +42,10 @@
   above: 0.7em, below: 0.7em)[_Интуиция._ #body]
 #let selfcheck(body) = block(width: 100%, inset: (x: 8pt, y: 5pt), above: 0.4em, below: 0.4em)[#text(fill: rgb("#1f6feb"))[?] #body]
 // #goal — цель: то, что в этом абзаце ещё только доказывается. Отличает цель от уже
-// доказанного: «*Условие 1.*» читается как утверждение, а «#goal[Условие 1.]» видно
-// как цель даже при быстром чтении. В формулировки, шпаргалку и карточки не попадает.
-#let goal(body) = block(width: 100%, inset: (x: 0pt, y: 0pt), above: 0.55em, below: 0.2em)[#text(fill: rgb("#1f6feb"))[?] #body]
+// доказанного: полоса слева видна сразу, а слова «докажем, что…» внутри блока объясняют,
+// что именно устанавливается. В формулировки, шпаргалку и карточки не попадает.
+#let goal(body) = block(width: 100%, inset: (x: 8pt, y: 3pt), stroke: (left: 2pt + luma(160)),
+  above: 0.7em, below: 0.35em)[*#body*]
 #let term(name, body) = block(width: 100%, inset: (x: 8pt, y: 6pt), above: 0.5em, below: 0.5em)[*#name* — #body]
 #let formula(name, body) = block(width: 100%, inset: (x: 8pt, y: 6pt), above: 0.5em, below: 0.5em)[*#name:* #body]
 // #aside — сведения НЕ из лекции: знания и уточнения исполнителя. Единственное
